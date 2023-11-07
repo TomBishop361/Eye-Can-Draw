@@ -20,9 +20,12 @@ public class ToggleBrush : MonoBehaviour {
     // Called at the start of the scene
 	void Start(){
 		objPlane = new Plane(Camera.main.transform.forward*-1, this.transform.position);
+		//moved to create bruch at start instead of in update
 		thisBrush = (GameObject)Instantiate(brushPrefab, this.transform.position, Quaternion.identity);
 	}
 
+
+	//lerp function to move the brush to eye Position
 	public static float lerp(float startValue, float endValue, float t)
 	{
 		return (startValue + (endValue - startValue) * t);
@@ -32,14 +35,13 @@ public class ToggleBrush : MonoBehaviour {
 	void Update () {
 
 		GazePoint gazePoint = TobiiAPI.GetGazePoint();
+
+		//Moves the instance of bruch when pressing space instead of creating bruch every time
 		lerp(thisBrush.transform.position.x, this.transform.position.x, 0);
 		lerp(thisBrush.transform.position.y, this.transform.position.y, 0);
 
 
-		if (Input.GetKeyDown (KeyCode.Space)) {
-
-			//thisBrush = (GameObject)Instantiate (brushPrefab, this.transform.position, Quaternion.identity);
-			
+		if (Input.GetKeyDown (KeyCode.Space)) {			
 
 			Ray mRay = Camera.main.ScreenPointToRay (gazePoint.Screen);
 
