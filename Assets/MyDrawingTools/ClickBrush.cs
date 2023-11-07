@@ -20,16 +20,26 @@ public class ClickBrush : MonoBehaviour {
     // Called at the start of the scene
 	void Start(){
 		objPlane = new Plane(Camera.main.transform.forward*-1, this.transform.position);
+		thisBrush = (GameObject)Instantiate(brushPrefab, this.transform.position, Quaternion.identity);
 	}
-	
+
+	public static float lerp(float startValue, float endValue, float t)
+	{
+		return (startValue + (endValue - startValue) * t);
+	}
+
 	// Update is called once per frame
 	void Update () {
 
 		GazePoint gazePoint = TobiiAPI.GetGazePoint();
+		lerp(thisBrush.transform.position.x, this.transform.position.x, 0);
+		lerp(thisBrush.transform.position.y, this.transform.position.y, 0);
+
 
 		if (Input.GetKeyDown (KeyCode.Space)) {
 
-			thisBrush = (GameObject)Instantiate (brushPrefab, this.transform.position, Quaternion.identity);
+			//thisBrush = (GameObject)Instantiate (brushPrefab, this.transform.position, Quaternion.identity);
+			
 
 			Ray mRay = Camera.main.ScreenPointToRay (gazePoint.Screen);
 
