@@ -524,7 +524,7 @@ GameObject:
   - component: {fileID: 1545070975}
   - component: {fileID: 1545070974}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: FollowObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -630,7 +630,7 @@ PrefabInstance:
       objectReference: {fileID: 1545070973}
     - target: {fileID: 3950456288257498234, guid: fc141bd0cd804724eaca80b0c0e82091, type: 3}
       propertyPath: multiplier
-      value: 0.009
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 4993214344126960512, guid: fc141bd0cd804724eaca80b0c0e82091, type: 3}
       propertyPath: m_LocalPosition.x

@@ -34,9 +34,8 @@ public class MyClickBrush : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-		GazePoint gazePoint = TobiiAPI.GetGazePoint();            
-
-
+		GazePoint gazePoint = TobiiAPI.GetGazePoint();      
+		
         if (Input.GetKeyDown (KeyCode.Space)) {
 
 			//Instanciates the Trail object to the FollowObj So that the trail starts at the eye position each time
