@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Tobii.Gaming;
+using UnityEditor;
+using Unity​Engine.InputSystem;
 
 public class MyClickBrush : MonoBehaviour {
-
+	public GameObject UICursor;
 	public GameObject GazePoint;
 	public GameObject brushPrefab;
 	public GameObject FollowObj;
@@ -34,8 +36,9 @@ public class MyClickBrush : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-		GazePoint gazePoint = TobiiAPI.GetGazePoint();      
-		
+		GazePoint gazePoint = TobiiAPI.GetGazePoint();
+        Mouse.current.WarpCursorPosition(smoothFilter(gazePoint.Screen));
+
         if (Input.GetKeyDown (KeyCode.Space)) {
 
 			//Instanciates the Trail object to the FollowObj So that the trail starts at the eye position each time
@@ -47,9 +50,9 @@ public class MyClickBrush : MonoBehaviour {
 			if (objPlane.Raycast (mRay, out rayDistance)) {
 				startPos = mRay.GetPoint (rayDistance);
 				
-			}
+			} 
 		} else if (Input.GetKey (KeyCode.Space) && gazePoint.IsRecent ()) {
-			Ray mRay = Camera.main.ScreenPointToRay (gazePoint.Screen);
+            Ray mRay = Camera.main.ScreenPointToRay(gazePoint.Screen);
 
 			float rayDistance;
 			if (objPlane.Raycast (mRay, out rayDistance)) {
@@ -78,6 +81,7 @@ public class MyClickBrush : MonoBehaviour {
 				FollowObj.transform.position = smoothFilter(new Vector2(mRay.GetPoint(rayDist).x, mRay.GetPoint(rayDist).y));    
 				
             }
+            
         }
 		
 	}
@@ -88,7 +92,7 @@ public class MyClickBrush : MonoBehaviour {
 			_hasHistoricPoint = true;
 		}
 
-		var smoothedPoint = new Vector2 (point.x * multiplier + _historicPoint.x * (1.0f - multiplier), 
+		Vector2 smoothedPoint = new Vector2 (point.x * multiplier + _historicPoint.x * (1.0f - multiplier), 
 			                    point.y * multiplier + _historicPoint.y * (1.0f - multiplier));
 
 		_historicPoint = smoothedPoint;
