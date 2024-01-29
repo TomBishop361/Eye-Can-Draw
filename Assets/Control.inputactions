@@ -1,0 +1,34 @@
+{
+    "name": "GamepadMouseCursorUIActions",
+    "maps": [
+        {
+            "name": "UI",
+            "id": "038d8f59-db9c-4389-83cd-7d41373518d5",
+            "actions": [
+                {
+                    "name": "Click",
+                    "type": "Button",
+                    "id": "db9978d9-9095-45ea-9f0b-af97d54f40df",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "6b10a603-4345-4689-87ed-4629e9eaa40b",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
