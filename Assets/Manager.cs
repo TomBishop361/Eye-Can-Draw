@@ -86,7 +86,7 @@ public class Manager : MonoBehaviour
     {
         Debug.Log("Correct =)");
         Correctevent.Invoke();
-        if (drawerIndx == 3)
+        if (drawerIndx == playerCount -1)
         {
             drawerIndx = 0;
         }
