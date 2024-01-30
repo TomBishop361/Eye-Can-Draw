@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class InputFeild : MonoBehaviour
+public class InputField : MonoBehaviour
 {
     public TMP_InputField feild;
     public Manager manager;
