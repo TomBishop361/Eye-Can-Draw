@@ -52,7 +52,7 @@ public class Manager : MonoBehaviour
         }
     }
 
-    void Ready(){
+    public void Ready(){
         foreach (GameObject Player in players){
             Player.SetActive(false);
         }

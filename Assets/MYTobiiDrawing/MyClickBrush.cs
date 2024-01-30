@@ -36,7 +36,7 @@ public class MyClickBrush : MonoBehaviour {
 
 		GazePoint gazePoint = TobiiAPI.GetGazePoint();      
 		
-        if (Input.GetKeyDown (KeyCode.Space)) {
+        if (Input.GetKeyDown (KeyCode.Mouse0)) {
 
 			//Instanciates the Trail object to the FollowObj So that the trail starts at the eye position each time
             thisBrush = (GameObject)Instantiate(brushPrefab, FollowObj.transform.position, Quaternion.identity);
@@ -48,7 +48,7 @@ public class MyClickBrush : MonoBehaviour {
 				startPos = mRay.GetPoint (rayDistance);
 				
 			}
-		} else if (Input.GetKey (KeyCode.Space) && gazePoint.IsRecent ()) {
+		} else if (Input.GetKey (KeyCode.Mouse0) && gazePoint.IsRecent ()) {
 			Ray mRay = Camera.main.ScreenPointToRay (gazePoint.Screen);
 
 			float rayDistance;
@@ -60,7 +60,7 @@ public class MyClickBrush : MonoBehaviour {
             }
 
 			//prevPos = mRay.GetPoint (rayDistance);
-		} else if (Input.GetKey (KeyCode.Space)) {
+		} else if (Input.GetKey (KeyCode.Mouse0)) {
 			if (Vector2.Distance (thisBrush.transform.position, startPos) < 0.1)
             {
                 Destroy (thisBrush);
