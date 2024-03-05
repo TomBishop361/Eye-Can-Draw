@@ -11,6 +11,7 @@ public class MyClickBrush : MonoBehaviour {
 	GameObject thisBrush;
 	Vector2 startPos;
 	Plane objPlane;
+	public Color color;
 
 	//Vector3 prevPos;
 
@@ -23,7 +24,7 @@ public class MyClickBrush : MonoBehaviour {
 		objPlane = new Plane(Camera.main.transform.forward*-1, this.transform.position);	
     }
 
-
+	
     public static float lerp(float startValue, float endValue, float t)
     {
         return (startValue + (endValue - startValue) * t);
@@ -34,10 +35,11 @@ public class MyClickBrush : MonoBehaviour {
 
 		GazePoint gazePoint = TobiiAPI.GetGazePoint();      
 		
-        if (Input.GetKeyDown (KeyCode.RightArrow)) {
+        if (Input.GetKeyDown (KeyCode.Mouse1)) {
 
 			//Instanciates the Trail object to the FollowObj So that the trail starts at the eye position each time
             thisBrush = (GameObject)Instantiate(brushPrefab, FollowObj.transform.position, Quaternion.identity);
+			thisBrush.GetComponent<LineScript>().colourChange(color);
             Ray mRay = Camera.main.ScreenPointToRay (gazePoint.Screen);
 
 			float rayDistance;
@@ -46,7 +48,7 @@ public class MyClickBrush : MonoBehaviour {
 				startPos = mRay.GetPoint (rayDistance);
 				
 			}
-		} else if (Input.GetKey (KeyCode.RightArrow) && gazePoint.IsRecent ()) {
+		} else if (Input.GetKey (KeyCode.Mouse1) && gazePoint.IsRecent ()) {
 			Ray mRay = Camera.main.ScreenPointToRay (gazePoint.Screen);
 
 			float rayDistance;
@@ -58,7 +60,7 @@ public class MyClickBrush : MonoBehaviour {
             }
 
 			//prevPos = mRay.GetPoint (rayDistance);
-		} else if (Input.GetKey (KeyCode.RightArrow)) {
+		} else if (Input.GetKey (KeyCode.Mouse1)) {
 			if (Vector2.Distance (thisBrush.transform.position, startPos) < 0.1)
             {
                 Destroy (thisBrush);
@@ -93,4 +95,24 @@ public class MyClickBrush : MonoBehaviour {
 
 		return smoothedPoint;
 	}
+
+	public void colourRed()
+	{
+		color = Color.red;
+	}
+	public void colourGreen()
+	{
+		color = Color.green;
+	}
+	public void colourBlue()
+	{
+		color = Color.blue;
+	}
+
+	public void colourYellow() {
+		color = Color.yellow;
+	}
+
+
+
 }

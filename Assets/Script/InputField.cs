@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Unity.Netcode;
 
 public class InputField : MonoBehaviour
 {
@@ -11,7 +12,10 @@ public class InputField : MonoBehaviour
     // Start is called before the first frame update
     void OnEnable(){
         feild.ActivateInputField();
+        
     }
+
+  
 
     public void Enter()
     {
