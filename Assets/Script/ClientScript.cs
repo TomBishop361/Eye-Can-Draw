@@ -11,21 +11,14 @@ public class ClientScript : MonoBehaviour
     [SerializeField] GameObject phoneCanvas;
     [SerializeField] TextMeshProUGUI promptText;
 
-      
+
     public void setupClient()
     {
         canvas.SetActive(false);
         phoneCanvas.SetActive(true);
     }
 
-    public void promptChangeClientRpc(string prompt)
-    {
-        if (!NetworkManager.Singleton.IsServer)
-        {
-            Debug.Log(prompt);
-            promptText.text = prompt;
-        }
-    }
+    
 
 
     // Update is called once per frame
