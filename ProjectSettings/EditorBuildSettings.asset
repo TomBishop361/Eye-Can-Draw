@@ -11,5 +11,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MyCanvasScene.unity
     guid: 3b2fc387a7bc8d44182b813f75280eef
+  - enabled: 1
+    path: Assets/Scenes/CanvasScenePhone.unity
+    guid: 45d33aa67eb0c0c49af70bb0b59c65b1
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 5e949a568583d524883a6ba61b531132, type: 2}

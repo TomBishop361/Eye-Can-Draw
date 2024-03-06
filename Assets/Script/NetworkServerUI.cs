@@ -1,27 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using Unity.Netcode;
-using Unity.Networking.Transport;
-using UnityEngine.Networking;
-using UnityEditor.PackageManager;
-using System.Xml.Serialization;
+using UnityEngine.UI;
 
 public class NetworkServerUI : MonoBehaviour
 {
+    [SerializeField] private Button connect; //for phone
 
-    [SerializeField]ClientScript ClientScript;
+    [SerializeField] ClientScript ClientScript;
 
     private void Start()
     {
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+        if (connect != null) connect.onClick.AddListener(() => { NetworkManager.Singleton.StartClient();});
     }
 
     private void OnGUI()
     {
-        
+        if (SystemInfo.deviceType != DeviceType.Handheld) { 
         GUILayout.BeginArea(new Rect(10, 10, 300, 300));
-        if(!NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer)
+        if (!NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer)
         {
             if (GUILayout.Button("Host"))
             {
@@ -35,12 +33,14 @@ public class NetworkServerUI : MonoBehaviour
             if (GUILayout.Button("Client"))
             {
                 NetworkManager.Singleton.StartClient();
+                
                 Debug.Log(NetworkManager.Singleton.IsServer);
                 Debug.Log(NetworkManager.Singleton.IsHost);
                 Debug.Log(NetworkManager.Singleton.IsClient);
             }
         }
         GUILayout.EndArea();
+    } 
     }
 
     
