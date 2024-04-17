@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class Manager : MonoBehaviour
     [SerializeField] private GameObject[] ingameIcons;
     private GameObject Drawer;
     private int drawerIndx;
+    public List<GameObject> lines = new List<GameObject>();
     public UnityEvent Correctevent;
     [SerializeField] TextMeshProUGUI PromptText;
     [SerializeField] TextMeshProUGUI NextPlayer;
@@ -33,7 +35,15 @@ public class Manager : MonoBehaviour
         }
     }
 
-
+    public void undo()
+    {
+        if (lines.Count > 0)
+        {
+            GameObject line = lines[lines.Count - 1];
+            lines.Remove(line);
+            Destroy(line);
+        }
+    }
     public void lessPlayer(){
         if(playerCount > 2){
             playerCount--;
@@ -81,14 +91,6 @@ public class Manager : MonoBehaviour
     }
 
 
-    [Rpc(SendTo.NotServer)]
-    void testClientRpc()
-    {       
-        Debug.Log("Test Call");
-                
-    }
-
-
     public void Ready(){
         foreach (GameObject Player in players){
             Player.SetActive(false);
@@ -121,10 +123,7 @@ public class Manager : MonoBehaviour
         }
     }
 
-    public void TimeOut()
-    {
 
-    }
 
     // Update is called once per frame
     void Update()
