@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Tobii.Gaming;
+using UnityEngine.SceneManagement;
 
 public class MyClickBrush : MonoBehaviour {
-
+	[SerializeField] Manager manager;
 	public GameObject GazePoint;
 	public GameObject brushPrefab;
 	public GameObject FollowObj;
@@ -12,16 +13,18 @@ public class MyClickBrush : MonoBehaviour {
 	Vector2 startPos;
 	Plane objPlane;
 	public Color color;
-
+	Scene currentScene;
 	//Vector3 prevPos;
+	
 
-	public float multiplier = 0.3f;
+    public float multiplier = 0.3f;
 	private Vector2 _historicPoint;
 	private bool _hasHistoricPoint;
 
     // Called at the start of the scene
 	void Start(){
-		objPlane = new Plane(Camera.main.transform.forward*-1, this.transform.position);	
+		objPlane = new Plane(Camera.main.transform.forward*-1, this.transform.position);
+        currentScene = SceneManager.GetActiveScene();
     }
 
 	
@@ -35,11 +38,16 @@ public class MyClickBrush : MonoBehaviour {
 
 		GazePoint gazePoint = TobiiAPI.GetGazePoint();      
 		
-        if (Input.GetKeyDown (KeyCode.Mouse1)) {
-
-			//Instanciates the Trail object to the FollowObj So that the trail starts at the eye position each time
-            thisBrush = (GameObject)Instantiate(brushPrefab, FollowObj.transform.position, Quaternion.identity);
-			thisBrush.GetComponent<LineScript>().colourChange(color);
+        if (Input.GetKeyDown (KeyCode.Mouse1)) {		
+			
+				//Instanciates the Trail object to the FollowObj So that the trail starts at the eye position each time
+				thisBrush = (GameObject)Instantiate(brushPrefab, FollowObj.transform.position, Quaternion.identity);
+				thisBrush.GetComponent<LineScript>().colourChange(color);
+			if (manager != null)
+			{
+				manager.lines.Add(thisBrush);
+			}
+			
             Ray mRay = Camera.main.ScreenPointToRay (gazePoint.Screen);
 
 			float rayDistance;
@@ -55,7 +63,10 @@ public class MyClickBrush : MonoBehaviour {
 			if (objPlane.Raycast (mRay, out rayDistance)) {
 				//Follow Obj and Brush follows the Eye Position 
 				FollowObj.transform.position = smoothFilter(new Vector2(mRay.GetPoint(rayDistance).x,mRay.GetPoint(rayDistance).y));
-                thisBrush.transform.position = smoothFilter(new Vector2(mRay.GetPoint(rayDistance).x, mRay.GetPoint(rayDistance).y));
+				if (thisBrush != null)
+				{
+					thisBrush.transform.position = smoothFilter(new Vector2(mRay.GetPoint(rayDistance).x, mRay.GetPoint(rayDistance).y));
+				}
 
             }
 
@@ -66,7 +77,12 @@ public class MyClickBrush : MonoBehaviour {
                 Destroy (thisBrush);
                 _hasHistoricPoint = false;
             }
+
 		}
+		if(Input.GetKeyUp(KeyCode.Mouse1))
+		{
+			thisBrush.GetComponent<LineScript>().enabled = false;
+        }
 		//my bit
 		else {
 			//While pen is up (Space is not pressed)
@@ -98,20 +114,20 @@ public class MyClickBrush : MonoBehaviour {
 
 	public void colourRed()
 	{
-		color = Color.red;
+		color = new Color(1,0,0);
 	}
 	public void colourGreen()
 	{
-		color = Color.green;
+		color = new Color(0.1325341f, 1,0);
 	}
 	public void colourBlue()
 	{
-		color = Color.blue;
+		color = new Color(0, 0, 1);
 	}
 
 	public void colourYellow() {
-		color = Color.yellow;
-	}
+        color = new Color(1, 0.8889837f, 0);
+    }
 
 
 
