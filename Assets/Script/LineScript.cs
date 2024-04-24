@@ -7,6 +7,9 @@ public class LineScript : MonoBehaviour
     Color color = Color.black;
     LineRenderer lineRenderer;
     [SerializeField] private EdgeCollider2D _collider2D;
+    public Rigidbody2D rb;
+    bool _enabled = true;
+    public Vector3 newPos;
 
     private List<Vector2> points = new List<Vector2>();
     // Start is called before the first frame update
@@ -32,19 +35,27 @@ public class LineScript : MonoBehaviour
     }
 
 
+    public void lineComplete()
+    {
+        enabled = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
-
-        if (canDraw(transform.position))
+        if (_enabled)
         {
-            points.Add(transform.position);
+            if (canDraw(transform.position  ))
+            {
+                points.Add(transform.position);
 
-            lineRenderer.positionCount++;
-            lineRenderer.SetPosition(lineRenderer.positionCount - 1, transform.position);
+                lineRenderer.positionCount++;
+                lineRenderer.SetPosition(lineRenderer.positionCount - 1, transform.position);
 
-            _collider2D.points = points.ToArray();
-            _collider2D.transform.localPosition = new Vector2(0 - transform.position.x, 0 - transform.position.y);
+                _collider2D.points = points.ToArray();
+                _collider2D.transform.localPosition = new Vector2(0 - transform.position.x, 0 - transform.position.y);
+            }
         }
+        
     }
 }

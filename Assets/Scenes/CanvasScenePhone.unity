@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1973,7 +1973,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: Join Game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2887,6 +2887,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 1749507119}
   phoneCanvas: {fileID: 2081962161}
+  connectCanvas: {fileID: 0}
   promptText: {fileID: 297182446}
 --- !u!1 &729371555
 GameObject:
@@ -5287,6 +5288,7 @@ MonoBehaviour:
   - {fileID: 1434396790}
   - {fileID: 2021587311}
   - {fileID: 2145881130}
+  lines: []
   Correctevent:
     m_PersistentCalls:
       m_Calls:
@@ -6210,6 +6212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8923c8bd5c9e91242b46a16211b7ef5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manager: {fileID: 0}
   GazePoint: {fileID: 0}
   brushPrefab: {fileID: 5452824995482261966, guid: b07ba48a44391bb49848e6cb16a55af8, type: 3}
   FollowObj: {fileID: 795753317}

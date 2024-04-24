@@ -23,10 +23,6 @@ public class Manager : MonoBehaviour
     [SerializeField] TextMeshProUGUI NextPlayer;
     
 
-    private void Start()
-    {
-        
-    }
     public void morePlayer(){
         if(playerCount < 4){
             playerCount++;

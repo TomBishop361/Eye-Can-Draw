@@ -43,7 +43,9 @@ public class MyClickBrush : MonoBehaviour {
 				//Instanciates the Trail object to the FollowObj So that the trail starts at the eye position each time
 				thisBrush = (GameObject)Instantiate(brushPrefab, FollowObj.transform.position, Quaternion.identity);
 				thisBrush.GetComponent<LineScript>().colourChange(color);
-			if (manager != null)
+			
+
+            if (manager != null)
 			{
 				manager.lines.Add(thisBrush);
 			}
@@ -63,10 +65,13 @@ public class MyClickBrush : MonoBehaviour {
 			if (objPlane.Raycast (mRay, out rayDistance)) {
 				//Follow Obj and Brush follows the Eye Position 
 				FollowObj.transform.position = smoothFilter(new Vector2(mRay.GetPoint(rayDistance).x,mRay.GetPoint(rayDistance).y));
-				if (thisBrush != null)
+                
+                if (thisBrush != null)
 				{
 					thisBrush.transform.position = smoothFilter(new Vector2(mRay.GetPoint(rayDistance).x, mRay.GetPoint(rayDistance).y));
-				}
+                    //thisBrush.GetComponent<LineScript>().newPos = smoothFilter(new Vector2(mRay.GetPoint(rayDistance).x, mRay.GetPoint(rayDistance).y));
+                    //thisBrush.GetComponent<LineScript>().newPos = FollowObj.transform.position;
+                }
 
             }
 
@@ -81,9 +86,10 @@ public class MyClickBrush : MonoBehaviour {
 		}
 		if(Input.GetKeyUp(KeyCode.Mouse1))
 		{
-			thisBrush.GetComponent<LineScript>().enabled = false;
+
+			thisBrush.GetComponent<LineScript>().lineComplete();
         }
-		//my bit
+		
 		else {
 			//While pen is up (Space is not pressed)
             Ray mRay = Camera.main.ScreenPointToRay(gazePoint.Screen);
