@@ -5,7 +5,7 @@ using Tobii.Gaming;
 using UnityEngine.SceneManagement;
 
 public class MyClickBrush : MonoBehaviour {
-	[SerializeField] Manager manager;
+	
 	public GameObject GazePoint;
 	public GameObject brushPrefab;
 	public GameObject FollowObj;
@@ -35,7 +35,7 @@ public class MyClickBrush : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-
+		
 		GazePoint gazePoint = TobiiAPI.GetGazePoint();      
 		
         if (Input.GetKeyDown (KeyCode.Mouse1)) {		
@@ -45,9 +45,9 @@ public class MyClickBrush : MonoBehaviour {
 				thisBrush.GetComponent<LineScript>().colourChange(color);
 			
 
-            if (manager != null)
+            if (Manager.Instance != null)
 			{
-				manager.lines.Add(thisBrush);
+				Manager.Instance.lines.Add(thisBrush);
 			}
 			
             Ray mRay = Camera.main.ScreenPointToRay (gazePoint.Screen);
@@ -87,7 +87,7 @@ public class MyClickBrush : MonoBehaviour {
 		if(Input.GetKeyUp(KeyCode.Mouse1))
 		{
 
-			thisBrush.GetComponent<LineScript>().lineComplete();
+			thisBrush.GetComponent<LineScript>().lineComplete(); //make singleton?
         }
 		
 		else {

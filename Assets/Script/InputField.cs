@@ -5,7 +5,7 @@ using UnityEngine;
 public class InputField : MonoBehaviour
 {
     public TMP_InputField feild;
-    public Manager manager;
+    
     
     // Start is called before the first frame update
     void OnEnable(){
@@ -17,8 +17,8 @@ public class InputField : MonoBehaviour
 
     public void Enter()
     {
-        manager.Guess = feild.text;
-        manager.answerCheck();
+        Manager.Instance.Guess = feild.text;
+        Manager.Instance.answerCheck();
 
     }
 

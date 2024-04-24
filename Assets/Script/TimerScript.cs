@@ -7,7 +7,7 @@ using System;
 
 public class TimerScript : MonoBehaviour
 {
-    [SerializeField] Manager manager;
+    
     [SerializeField] private Image imageFill;
     [SerializeField] private TMP_Text text;
 
@@ -36,6 +36,6 @@ public class TimerScript : MonoBehaviour
     private void timerEnd()
     {
         Debug.Log("times up!");
-        manager.Correct(false);
+        Manager.Instance.Correct(false);
     }
 }
