@@ -13,10 +13,11 @@ public class Manager : MonoBehaviour
     [Header("Script References")]
     [SerializeField] ClientScript clientScript;
     [SerializeField] NetBehaviour netBehaviour;
-    public TextMeshProUGUI playercountText;    
+    
     
 
     [Header("UI")]
+    public TextMeshProUGUI playercountText;
     [SerializeField] private GameObject[] players;
     [SerializeField] private GameObject[] ingameIcons;       
     [SerializeField] TextMeshProUGUI NextPlayer;
@@ -93,8 +94,8 @@ public class Manager : MonoBehaviour
 
                 //inscrease everyones score and checks if any player has hit point limit
                 foreach (GameObject Guesser in ingameIcons)
-                {
-                    PlayerScoreCounter score = Guesser.GetComponent<PlayerScoreCounter>();
+                {                    
+                    PlayerScoreCounter score = Guesser.GetComponent<PlayerScoreCounter>(); //(Drawer is also in Guesser list)
                     score.score += 25;
                     if (score.score >= scoreLimit)
                     {
@@ -108,39 +109,49 @@ public class Manager : MonoBehaviour
     }
 
     void playerSelectUIUpdate(){
+        //Updates UI to display the right amount of player according to 'playerCount'
         playercountText.text = playerCount.ToString();
+
+        //Disables all player UI icons
         foreach(GameObject Player in players)
         {
             Player.SetActive(false);
         }
+        //enables nessisary UI player icons
         for(int i = 0; i < playerCount; i++){
             players[i].SetActive(true);
         }
     }
 
-    public void gerneratePrompt()
+    public void gerneratePrompt() //function required to call RPC Function
     {
         gerneratePromptRpc();
     }
 
     [Rpc(SendTo.Server)]
     public void gerneratePromptRpc(){
+        // Check if the current instance is the server
         if (NetworkManager.Singleton.IsServer)
         {   
+            //Generate prompt
             activePrompt = Enum.GetName(typeof(DrawingPrompt), UnityEngine.Random.Range(0, 87));
+            // Notify clients about the prompt change
             netBehaviour.promptChangeClientRpc(activePrompt);
-            //testClientRpc();
+            
         }
     }
 
 
     public void Ready(){
+        //hide all player UI icons
         foreach (GameObject Player in players){
             Player.SetActive(false);
         }
+        //Enable ingame player icons
         for (int i = 0;i < playerCount; i++){
             ingameIcons[i].SetActive(true);
         }
+        //Sets player 1 to be drawer
         Drawer = ingameIcons[drawerIndx];
         
     }
@@ -158,6 +169,7 @@ public class Manager : MonoBehaviour
         {
             drawerIndx++;
         }
+        //Drawer = next player in playerlist
         Drawer = ingameIcons[drawerIndx];
         Debug.Log(Drawer.transform.name);
         NextPlayer.text = Drawer.transform.name;
