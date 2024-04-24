@@ -19,9 +19,11 @@ public class Manager : MonoBehaviour
     private int drawerIndx;
     public List<GameObject> lines = new List<GameObject>();
     public UnityEvent Correctevent;
+    public UnityEvent Winner;
     [SerializeField] TextMeshProUGUI PromptText;
     [SerializeField] TextMeshProUGUI NextPlayer;
-    
+    [SerializeField] TextMeshProUGUI outCome;
+
 
     public void morePlayer(){
         if(playerCount < 4){
@@ -48,15 +50,26 @@ public class Manager : MonoBehaviour
         }
     }
 
-    public void answerCheck(){
-        if(activePrompt != null) { 
-        if(activePrompt.ToLower() == Guess.ToLower()){
-            foreach ( GameObject Guesser in ingameIcons){
-                Guesser.GetComponent<PlayerScoreCounter>().score += 25;
+    public void answerCheck()
+    {
+        if (activePrompt != null)
+        {
+            if (activePrompt.ToLower() == Guess.ToLower())
+            {
+
+                Drawer.GetComponent<PlayerScoreCounter>().score += 25; // 25 * time multiplier. Faster they guess, more points they get
+                foreach (GameObject Guesser in ingameIcons)
+                {
+                    PlayerScoreCounter score = Guesser.GetComponent<PlayerScoreCounter>();
+                    score.score += 25;
+                    if (score.score >= 100)
+                    {
+                        Winner.Invoke();
+                        return;
+                    }
+                }
+                Correct(true);
             }
-            Drawer.GetComponent<PlayerScoreCounter>().score += 25; // 25 * time multiplier. Faster they guess, more points they get
-            Correct();
-        }
         }
     }
 
@@ -98,10 +111,11 @@ public class Manager : MonoBehaviour
         
     }
 
-    public void Correct()
-    {
-        Debug.Log("Correct =)");
+    public void Correct(bool correct)
+    {        
         Correctevent.Invoke();
+        if (correct) outCome.text = ("Correct!");
+        else outCome.text = ("Times Up!");
         if (drawerIndx == playerCount)
         {
             drawerIndx = 0;
@@ -111,6 +125,7 @@ public class Manager : MonoBehaviour
             drawerIndx++;
         }
         Drawer = ingameIcons[drawerIndx];
+        Debug.Log(Drawer.transform.name);
         NextPlayer.text = Drawer.transform.name;
         GameObject[] destoryLines = GameObject.FindGameObjectsWithTag("Line");
         foreach (GameObject destoryLine in destoryLines)
@@ -119,11 +134,6 @@ public class Manager : MonoBehaviour
         }
     }
 
+    
 
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

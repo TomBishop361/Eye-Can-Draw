@@ -135,6 +135,18 @@ public class MyClickBrush : MonoBehaviour {
         color = new Color(1, 0.8889837f, 0);
     }
 
+	public void ColourPink()
+	{
+		Vector3 pink = new Vector3(255, 20, 147).normalized;
+		color = new Color(pink.x,pink.y,pink.z);
+	}
+
+	public void colourBrown()
+	{
+		Vector3 bown = new Vector3(139, 69, 19).normalized;
+        color = new Color(bown.x,bown.y,bown.z);
+    }
+
 
 
 }

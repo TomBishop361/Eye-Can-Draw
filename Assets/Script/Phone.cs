@@ -1,3 +1,4 @@
+using UnityEditor.DeviceSimulation;
 using UnityEngine;
 
 public class Phone : MonoBehaviour
@@ -15,6 +16,7 @@ public class Phone : MonoBehaviour
             // Run code specific to mobile platforms
             Debug.Log("Running on mobile platform.");
             // Add your mobile-specific code here
+            
         }
     }
 
