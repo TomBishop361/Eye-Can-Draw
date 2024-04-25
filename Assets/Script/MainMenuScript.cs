@@ -7,14 +7,18 @@ public class MainMenuScript : MonoBehaviour
 {
     public void PlayEyeCanDraw()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 
     public void PlayEyeCanSolve()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
     }
 
+    public void LoadLevelSelect()
+    {
+        SceneManager.LoadScene(1);
+    }
 
     public void quitgame()
     {
