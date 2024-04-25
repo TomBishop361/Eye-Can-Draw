@@ -15,35 +15,17 @@ public class NetworkServerUI : MonoBehaviour
         if (connect != null) connect.onClick.AddListener(() => { NetworkManager.Singleton.StartClient();});
     }
 
-    private void OnGUI()
+
+    public void Host()
     {
-        if (SystemInfo.deviceType != DeviceType.Handheld) { 
-        GUILayout.BeginArea(new Rect(10, 10, 300, 300));
-        if (!NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer)
-        {
-            if (GUILayout.Button("Host"))
-            {
-                NetworkManager.Singleton.StartHost();
-                Debug.Log(NetworkManager.Singleton.IsServer);
-                Debug.Log(NetworkManager.Singleton.IsHost);
-                Debug.Log(NetworkManager.Singleton.IsClient);
-
-
-            }
-            if (GUILayout.Button("Client"))
-            {
-                NetworkManager.Singleton.StartClient();
-                
-                Debug.Log(NetworkManager.Singleton.IsServer);
-                Debug.Log(NetworkManager.Singleton.IsHost);
-                Debug.Log(NetworkManager.Singleton.IsClient);
-            }
-        }
-        GUILayout.EndArea();
-    } 
+        NetworkManager.Singleton.StartHost();
+        
     }
 
-    
+    public void Join()
+    {
+        NetworkManager.Singleton.StartClient();
+    }
 
     private void OnClientConnected(ulong clientId)
     {
@@ -53,7 +35,13 @@ public class NetworkServerUI : MonoBehaviour
             {
                 Debug.Log("Client connected. You can now call ServerRpc methods.");
                 ClientScript.setupClient();
+                
             }
+        }
+        //Checks to see if connected client is not host
+        if (clientId != NetworkManager.Singleton.LocalClientId)
+        {
+            Manager.Instance.DeviceConnected();
         }
     }
 

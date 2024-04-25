@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -13,15 +14,21 @@ public class Manager : MonoBehaviour
     [Header("Script References")]
     [SerializeField] ClientScript clientScript;
     [SerializeField] NetBehaviour netBehaviour;
+    [SerializeField] TimerScript timerScript;
     
     
 
     [Header("UI")]
     public TextMeshProUGUI playercountText;
+    [SerializeField] private GameObject PlayerSelect;
+    [SerializeField] private TMP_Text promptText;
+    [SerializeField] private GameObject ReadyButton;
     [SerializeField] private GameObject[] players;
-    [SerializeField] private GameObject[] ingameIcons;       
+    [SerializeField] private GameObject[] ingameIcons;
+    [SerializeField] private GameObject[] winnerIcons;
     [SerializeField] TextMeshProUGUI NextPlayer;
     [SerializeField] TextMeshProUGUI outCome;
+    public int gameTimer = 80;
 
     [Header("Unity Events")]
     public UnityEvent Correctevent;
@@ -29,12 +36,14 @@ public class Manager : MonoBehaviour
 
     //Hidden / Private
     [HideInInspector] public List<GameObject> lines = new List<GameObject>();
-    [HideInInspector] public int scoreLimit;
+    [HideInInspector]public int scoreLimit = 150;
     [HideInInspector] public int playerCount = 2;
     private GameObject Drawer;
     private int drawerIndx;
     private string activePrompt;
     [HideInInspector] public string Guess;
+    [HideInInspector]public int bonus = 20;
+    [HideInInspector] bool localPlay = false;
 
     private void Awake()
     {
@@ -87,25 +96,32 @@ public class Manager : MonoBehaviour
         if (activePrompt != null)
         {
             //compares active prompt to players guess
-            if (activePrompt.ToLower() == Guess.ToLower())
+            if (activePrompt.ToLower() == Guess.ToLower().Replace(" ", ""))
             {
-                //increase Drawer score
-                Drawer.GetComponent<PlayerScoreCounter>().score += 25; // 25 * time multiplier. Faster they guess, more points they get
-
+                PlayerScoreCounter drawerScore = Drawer.GetComponent<PlayerScoreCounter>();
+                drawerScore.score += 35;
                 //inscrease everyones score and checks if any player has hit point limit
-                foreach (GameObject Guesser in ingameIcons)
+                //foreach (GameObject Guesser in ingameIcons)
+                for (int i = 0; i < ingameIcons.Count(); i++)
                 {                    
-                    PlayerScoreCounter score = Guesser.GetComponent<PlayerScoreCounter>(); //(Drawer is also in Guesser list)
-                    score.score += 25;
+                    PlayerScoreCounter score = ingameIcons[i].GetComponent<PlayerScoreCounter>(); //(Drawer is also in Guesser list)
+                    if(score != drawerScore) score.score += 25 + bonus;
+
                     if (score.score >= scoreLimit)
                     {
                         Winner.Invoke();
+                        GameWin(i);
                         return;
                     }
                 }
                 Correct(true);
             }
         }
+    }
+
+    private void GameWin(int winner)
+    {
+        winnerIcons[winner].SetActive(true);
     }
 
     void playerSelectUIUpdate(){
@@ -125,22 +141,43 @@ public class Manager : MonoBehaviour
 
     public void gerneratePrompt() //function required to call RPC Function
     {
-        gerneratePromptRpc();
+        //Generate prompt
+        activePrompt = Enum.GetName(typeof(DrawingPrompt), UnityEngine.Random.Range(0, 87));
+        if (!localPlay)
+        {
+            promptText.text = "Check Your Prompt!";
+            gerneratePromptRpc();
+        }
+        else
+        {
+            promptText.text = activePrompt;
+        }
     }
 
     [Rpc(SendTo.Server)]
     public void gerneratePromptRpc(){
         // Check if the current instance is the server
         if (NetworkManager.Singleton.IsServer)
-        {   
-            //Generate prompt
-            activePrompt = Enum.GetName(typeof(DrawingPrompt), UnityEngine.Random.Range(0, 87));
-            // Notify clients about the prompt change
-            netBehaviour.promptChangeClientRpc(activePrompt);
+        {              
+           netBehaviour.promptChangeClientRpc(activePrompt);
+                        
             
         }
     }
 
+    //sets game to be playable without a connected devices
+    public void playLocal()
+    {
+        localPlay = true;
+        PlayerSelect.SetActive(true);
+        ReadyButton.SetActive(true);
+    }
+
+    //Called when a devices is connected
+    public void DeviceConnected()
+    {
+        ReadyButton.SetActive(true);
+    }
 
     public void Ready(){
         //hide all player UI icons
@@ -155,13 +192,20 @@ public class Manager : MonoBehaviour
         Drawer = ingameIcons[drawerIndx];
         
     }
+    
+    //Starts the in game timer
+    public void startTimer()
+    {
+        timerScript.startTimer(gameTimer);
+    }
 
+    //Called if answer is correct
     public void Correct(bool correct)
     {        
         Correctevent.Invoke();
         if (correct) outCome.text = ("Correct!");
         else outCome.text = ("Times Up!");
-        if (drawerIndx == playerCount)
+        if (drawerIndx == playerCount-1)
         {
             drawerIndx = 0;
         }
