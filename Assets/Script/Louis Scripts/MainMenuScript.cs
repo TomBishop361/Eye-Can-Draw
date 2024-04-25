@@ -24,4 +24,10 @@ public class MainMenuScript : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void backtomenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
 }
