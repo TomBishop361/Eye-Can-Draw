@@ -5,6 +5,8 @@ using TMPro;
 
 public class PlayerScoreCounter : MonoBehaviour
 {
+    public bool playing;
+    public int player;
     public int score;
     [SerializeField]TextMeshProUGUI scoreText;
     // Start is called before the first frame update

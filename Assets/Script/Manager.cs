@@ -44,6 +44,7 @@ public class Manager : MonoBehaviour
     [HideInInspector] public string Guess;
     [HideInInspector]public int bonus = 20;
     [HideInInspector] bool localPlay = false;
+    List<PlayerScoreCounter> winners = new List<PlayerScoreCounter>();
 
     private void Awake()
     {
@@ -78,6 +79,22 @@ public class Manager : MonoBehaviour
         }
     }
 
+    
+    //Clears all lines
+    public void clear()
+    {
+        Debug.Log(lines.Count);
+        if (lines.Count > 0)
+        {
+            for(int i = 0; i < lines.Count; i++) 
+            {
+                Destroy(lines[i].gameObject);
+                
+            }
+            lines.Clear();
+        }
+    }
+
     public void undo()
     {
         //Checks if there are lines to undo
@@ -99,29 +116,40 @@ public class Manager : MonoBehaviour
             if (activePrompt.ToLower() == Guess.ToLower().Replace(" ", ""))
             {
                 PlayerScoreCounter drawerScore = Drawer.GetComponent<PlayerScoreCounter>();
-                drawerScore.score += 35;
+                drawerScore.score += 30;
                 //inscrease everyones score and checks if any player has hit point limit
                 //foreach (GameObject Guesser in ingameIcons)
+                Debug.Log(ingameIcons.Count());
                 for (int i = 0; i < ingameIcons.Count(); i++)
                 {                    
                     PlayerScoreCounter score = ingameIcons[i].GetComponent<PlayerScoreCounter>(); //(Drawer is also in Guesser list)
-                    if(score != drawerScore) score.score += 25 + bonus;
-
-                    if (score.score >= scoreLimit)
-                    {
-                        Winner.Invoke();
-                        GameWin(i);
-                        return;
+                    if(score != drawerScore && score.playing) score.score += 25 + bonus;
+                    if (score.score >= scoreLimit) {
+                        winners.Add(score);
                     }
                 }
-                Correct(true);
+                if(winners.Count > 0)
+                {
+                    GameWin();
+                }
+                else
+                {
+                    Correct(true);
+                }                
+                
             }
         }
     }
 
-    private void GameWin(int winner)
+
+    private void GameWin()
     {
-        winnerIcons[winner].SetActive(true);
+        Winner.Invoke();
+        for (int i = 0;i < winners.Count;i++)
+        {
+            Debug.Log(winners.Count);
+            winnerIcons[winners[i].player].SetActive(true);
+        }
     }
 
     void playerSelectUIUpdate(){
@@ -132,10 +160,12 @@ public class Manager : MonoBehaviour
         foreach(GameObject Player in players)
         {
             Player.SetActive(false);
+            
         }
         //enables nessisary UI player icons
         for(int i = 0; i < playerCount; i++){
             players[i].SetActive(true);
+            
         }
     }
 
@@ -187,6 +217,7 @@ public class Manager : MonoBehaviour
         //Enable ingame player icons
         for (int i = 0;i < playerCount; i++){
             ingameIcons[i].SetActive(true);
+            ingameIcons[i].GetComponent<PlayerScoreCounter>().playing = true;
         }
         //Sets player 1 to be drawer
         Drawer = ingameIcons[drawerIndx];
@@ -215,7 +246,6 @@ public class Manager : MonoBehaviour
         }
         //Drawer = next player in playerlist
         Drawer = ingameIcons[drawerIndx];
-        Debug.Log(Drawer.transform.name);
         NextPlayer.text = Drawer.transform.name;
         GameObject[] destoryLines = GameObject.FindGameObjectsWithTag("Line");
         foreach (GameObject destoryLine in destoryLines)

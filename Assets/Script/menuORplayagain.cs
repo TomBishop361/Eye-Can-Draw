@@ -14,6 +14,6 @@ public class menuORplayagain : MonoBehaviour
 
     public void backToMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("Menu");
     }
 }

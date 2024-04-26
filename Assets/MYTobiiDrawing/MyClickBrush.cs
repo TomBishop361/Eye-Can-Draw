@@ -50,10 +50,8 @@ public class MyClickBrush : MonoBehaviour
 			thisBrush.GetComponent<LineScript>().colourChange(color);
 
 
-			if (Manager.Instance != null)
-			{
-				Manager.Instance.lines.Add(thisBrush);
-			}
+			Manager.Instance.lines.Add(thisBrush);
+			
 
 			Ray mRay = Camera.main.ScreenPointToRay(gazePoint.Screen);
 
@@ -159,6 +157,11 @@ public class MyClickBrush : MonoBehaviour
 	{
 		Vector3 bown = new Vector3(139, 69, 19).normalized;
 		color = new Color(bown.x, bown.y, bown.z);
+	}
+
+	public void colourBlack()
+	{
+		color = Color.black;
 	}
 
 
