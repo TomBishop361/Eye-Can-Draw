@@ -7,7 +7,7 @@ public class MenuSlidein : MonoBehaviour
     public Transform Box;
     public CanvasGroup Background;
     
-    private void OnEnableMenu()
+    public void OnEnableMenu()
     {
         Background.alpha = 0;
         Background.LeanAlpha(1, 0.5f);
