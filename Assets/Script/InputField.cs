@@ -14,7 +14,7 @@ public class InputField : MonoBehaviour
     }
 
   
-
+    //calls answer check
     public void Enter()
     {
         Manager.Instance.Guess = feild.text;
@@ -22,9 +22,4 @@ public class InputField : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

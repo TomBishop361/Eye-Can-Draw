@@ -14,22 +14,26 @@ public class NetworkServerUI : MonoBehaviour
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
     }
 
-
+    //Starts server as host
     public void Host()
     {
         NetworkManager.Singleton.StartHost();
         
     }
 
+    //Connects to server as client
     public void Join()
     {
         NetworkManager.Singleton.StartClient();
     }
 
+    //When client connects
     private void OnClientConnected(ulong clientId)
     {
+        //if connecting is Not Server
         if (!NetworkManager.Singleton.IsServer)
         {
+            //Connecting Client
             if (clientId == NetworkManager.Singleton.LocalClientId)
             {
                 Debug.Log("Client connected. You can now call ServerRpc methods.");
@@ -37,7 +41,7 @@ public class NetworkServerUI : MonoBehaviour
                 
             }
         }
-        //Checks to see if connected client is not host
+        //Host
         if (clientId != NetworkManager.Singleton.LocalClientId)
         {
             Manager.Instance.DeviceConnected();

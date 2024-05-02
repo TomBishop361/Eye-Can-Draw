@@ -12,11 +12,11 @@ public class GameOptionsManager : MonoBehaviour
     [SerializeField] TMP_Text Timerslider;
     [SerializeField] TMP_Text ScoreSlider;
 
+    //toggle options panel
     public void options()
     {
         if (open)
         {
-
             panel.gameObject.SetActive(false);
             open = false;
         }else
@@ -28,13 +28,16 @@ public class GameOptionsManager : MonoBehaviour
        
     }
   
-
+    //update timer slider
     public void timerChange(Slider slider)
     {
         Timerslider.text = slider.value.ToString();
         Manager.Instance.gameTimer = (int)slider.value;
     }
 
+
+
+    //update score slider
     public void ScoreSlier(Slider slider)
     {
         ScoreSlider.text = slider.value.ToString();

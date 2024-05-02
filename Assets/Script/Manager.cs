@@ -59,39 +59,8 @@ public class Manager : MonoBehaviour
         }
     }
 
-    
-    public void createHint()
-    {
-        hint.text = string.Empty;
-        int letters = activePrompt.Length;
-        for(int i = 0; i < letters; i++)
-        {
-            hint.text += "-";
-        }
-    }
 
-    public void AddHint()
-    {
-        if (activePrompt.Length > 5)
-        {
-            //get a random letter from Active prompt and display it on the hint
-            int random = UnityEngine.Random.Range(0, activePrompt.Length - 1);
-            char[] letter = activePrompt.ToCharArray();
-            char[] hintChar = hint.text.ToCharArray();
-
-            if (hintChar[random] == 45)
-            {
-                hintChar[random] = letter[random];
-                hint.text = new string(hintChar);
-            }
-            else
-            {
-                AddHint();
-            }
-        }        
-        
-    }
-
+    //Adds player
     public void morePlayer(){
         //Check if playercount is below maximum players (4)
         if(playerCount < 4){
@@ -102,6 +71,7 @@ public class Manager : MonoBehaviour
         }
     }
    
+    //removes player
     public void lessPlayer(){
         //Check playercount is more than minumumplayers required (2)
         if(playerCount > 2){
@@ -128,6 +98,7 @@ public class Manager : MonoBehaviour
         }
     }
 
+    //undoes last line
     public void undo()
     {
         //Checks if there are lines to undo
@@ -140,7 +111,7 @@ public class Manager : MonoBehaviour
         }
     }
 
-
+    //checks answer is correct and if there is a winner
     public void answerCheck()
     {
         if (activePrompt != null)
@@ -151,16 +122,16 @@ public class Manager : MonoBehaviour
                 PlayerScoreCounter drawerScore = Drawer.GetComponent<PlayerScoreCounter>();
                 drawerScore.score += 30;
                 //inscrease everyones score and checks if any player has hit point limit
-                //foreach (GameObject Guesser in ingameIcons)
-                Debug.Log(ingameIcons.Count());
                 for (int i = 0; i < ingameIcons.Count(); i++)
                 {                    
                     PlayerScoreCounter score = ingameIcons[i].GetComponent<PlayerScoreCounter>(); //(Drawer is also in Guesser list)
                     if(score != drawerScore && score.playing) score.score += 25 + bonus;
+                    //if players score >= score add to winner array then continue for loop
                     if (score.score >= scoreLimit) {
                         winners.Add(score);
                     }
                 }
+                //if there are winners call win logic, else call corret logic
                 if(winners.Count > 0)
                 {
                     GameWin();
@@ -174,7 +145,7 @@ public class Manager : MonoBehaviour
         }
     }
 
-
+    //displays all winning plays to winner screen
     private void GameWin()
     {
         Winner.Invoke();
@@ -206,27 +177,68 @@ public class Manager : MonoBehaviour
     {
         //Generate prompt
         activePrompt = Enum.GetName(typeof(DrawingPrompt), UnityEngine.Random.Range(0, 87));
+        //if player is playing not playing local mode, call generate prompt RPC
         if (!localPlay)
         {
             promptText.text = "Check Your Prompt!";
             gerneratePromptRpc();
 
         }
-        else
+        else // else directly change prompttext
         {
             promptText.text = activePrompt;
         }
+        //if there is a prompt then call create Hint
         if(activePrompt != null)
         {
             createHint();
         }
     }
 
+
+    //Creates the hint text at top of screen
+    public void createHint()
+    {
+        hint.text = string.Empty;
+        int letters = activePrompt.Length;
+        for (int i = 0; i < letters; i++)
+        {
+            hint.text += "-";
+        }
+    }
+
+    //Adds letter to hint text from Active prompt
+    public void AddHint()
+    {
+        if (activePrompt.Length > 5)
+        {
+            //get a random letter from Active prompt and display it on the hint
+            int random = UnityEngine.Random.Range(0, activePrompt.Length - 1);
+            char[] letter = activePrompt.ToCharArray();
+            char[] hintChar = hint.text.ToCharArray();
+
+            //if char == 45 (45 is '-') | if character hasnt already been revealed
+            if (hintChar[random] == 45)
+            {
+                hintChar[random] = letter[random];
+                hint.text = new string(hintChar);
+            }
+            else // regenerate random letter to reveal
+            {
+                AddHint();
+            }
+        }
+
+    }
+
+
+    //This function is run on server
     [Rpc(SendTo.Server)]
     public void gerneratePromptRpc(){
         // Check if the current instance is the server
         if (NetworkManager.Singleton.IsServer)
         {              
+           //server calls this function on Client
            netBehaviour.promptChangeClientRpc(activePrompt);
                         
             

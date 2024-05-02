@@ -15,7 +15,7 @@ public class TimerScript : MonoBehaviour
     private int bonustimer;
     private int timeRemaining;
 
-
+    //starts timer with chosen duration
     public void startTimer(int duration)
     {
         _duration = duration;
@@ -24,6 +24,7 @@ public class TimerScript : MonoBehaviour
         StartCoroutine("timerUpdate");
     }
 
+    //counts timer down and formats text to 00:00
     private IEnumerator timerUpdate()
     {
         while (timeRemaining > -1) {
@@ -42,7 +43,6 @@ public class TimerScript : MonoBehaviour
 
     private void timerEnd()
     {
-        Debug.Log("times up!");
         Manager.Instance.Correct(false);
     }
 }

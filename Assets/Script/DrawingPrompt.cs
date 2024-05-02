@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//All Drawing prompts
 public enum DrawingPrompt
 {
     Tree,

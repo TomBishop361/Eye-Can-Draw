@@ -15,10 +15,6 @@ public class MyClickBrush : MonoBehaviour
 	Vector2 startPos;
 	Plane objPlane;
 	public Color color;
-
-	//Vector3 prevPos;
-
-
 	public float multiplier = 0.3f;
 	private Vector2 _historicPoint;
 	private bool _hasHistoricPoint;
@@ -26,6 +22,7 @@ public class MyClickBrush : MonoBehaviour
 	// Called at the start of the scene
 	void Start()
 	{
+		//Tobbii Click Brush is singleton
 		if(Instance == null)
 		{
 			Instance = this;
@@ -36,17 +33,7 @@ public class MyClickBrush : MonoBehaviour
 		}
 
 		objPlane = new Plane(Camera.main.transform.forward * -1, this.transform.position);
-
-
-
-	}
-
-
-
-	public static float lerp(float startValue, float endValue, float t)
-	{
-		return (startValue + (endValue - startValue) * t);
-	}
+	}	
 
 	// Update is called once per frame
 	void Update()
@@ -107,7 +94,7 @@ public class MyClickBrush : MonoBehaviour
 		if (Input.GetKeyUp(KeyCode.Mouse1))
 		{
 
-			thisBrush.GetComponent<LineScript>().lineComplete(); //make singleton?
+			thisBrush.GetComponent<LineScript>().lineComplete(); 
 		}
 
 		else

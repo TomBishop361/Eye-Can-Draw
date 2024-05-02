@@ -15,12 +15,4 @@ public class ClientScript : MonoBehaviour
         phoneCanvas.SetActive(true);
     }
 
-    
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

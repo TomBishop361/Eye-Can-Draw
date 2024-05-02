@@ -9,20 +9,18 @@ public class PlayerScoreCounter : MonoBehaviour
     public int player;
     public int score;
     [SerializeField]TextMeshProUGUI scoreText;
-    // Start is called before the first frame update
+    
+
+    //set score to 0
     void Start()
     {
         score = 0;
     }
 
+    //Update Score Ui
     public void OnGUI()
     {
         scoreText.text = score.ToString();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

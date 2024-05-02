@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class Phone : MonoBehaviour
 {
-
+    //Detects if phone enters main menu to display correct menu
     void Start()
     {
         //Check is device is handheld Device
