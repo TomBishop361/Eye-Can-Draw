@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class MyClickBrush : MonoBehaviour
 {
-
+	public static MyClickBrush Instance;
+	public bool isPhysicsScene;
 	public GameObject GazePoint;
 	public GameObject brushPrefab;
 	public GameObject FollowObj;
@@ -25,7 +26,18 @@ public class MyClickBrush : MonoBehaviour
 	// Called at the start of the scene
 	void Start()
 	{
+		if(Instance == null)
+		{
+			Instance = this;
+		}
+		else
+		{
+			Destroy(this);
+		}
+
 		objPlane = new Plane(Camera.main.transform.forward * -1, this.transform.position);
+
+
 
 	}
 

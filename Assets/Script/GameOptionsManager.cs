@@ -16,6 +16,7 @@ public class GameOptionsManager : MonoBehaviour
     {
         if (open)
         {
+
             panel.gameObject.SetActive(false);
             open = false;
         }else

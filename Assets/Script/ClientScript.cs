@@ -6,7 +6,6 @@ public class ClientScript : MonoBehaviour
 {
     [SerializeField] GameObject canvas;
     [SerializeField] GameObject phoneCanvas;
-    [SerializeField] GameObject connectCanvas;
     [SerializeField] TextMeshProUGUI promptText;
 
 
@@ -14,7 +13,6 @@ public class ClientScript : MonoBehaviour
     {
         canvas.SetActive(false);
         phoneCanvas.SetActive(true);
-        connectCanvas.SetActive(false);
     }
 
     

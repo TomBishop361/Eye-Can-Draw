@@ -82,6 +82,7 @@ MonoBehaviour:
   _collider2D: {fileID: 8557792355520093871}
   rb: {fileID: 334687057315634467}
   newPos: {x: 0, y: 0, z: 0}
+  physicsScene: 0
 --- !u!120 &2612000525066829878
 LineRenderer:
   serializedVersion: 2
@@ -237,7 +238,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 10
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1

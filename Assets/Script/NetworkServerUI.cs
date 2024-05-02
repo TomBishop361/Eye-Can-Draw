@@ -12,7 +12,6 @@ public class NetworkServerUI : MonoBehaviour
     private void Start()
     {
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-        if (connect != null) connect.onClick.AddListener(() => { NetworkManager.Singleton.StartClient();});
     }
 
 

@@ -17,12 +17,12 @@ public class LineScript : MonoBehaviour
     private List<Vector2> points = new List<Vector2>();
     // Start is called before the first frame update
     
-    bool physicsScene;
+    public bool physicsScene;
     public const float RESOLUTION = 1.5f;
     void Start()
     {
         currentScene = SceneManager.GetActiveScene();
-        physicsScene = (currentScene == SceneManager.GetSceneByName("2DPhysics"));
+        physicsScene = MyClickBrush.Instance.isPhysicsScene;
         Debug.Log("Starting");
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.material.color = color;
