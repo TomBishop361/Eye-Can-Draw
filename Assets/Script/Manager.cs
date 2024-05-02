@@ -72,14 +72,23 @@ public class Manager : MonoBehaviour
 
     public void AddHint()
     {
-        //get a random letter from Active prompt and display it on the hint
-        int random = UnityEngine.Random.Range(0, activePrompt.Length-1);
-        char[] letter = activePrompt.ToCharArray();
-        char[] hintChar = hint.text.ToCharArray();
-        
-        hintChar[random] = letter[random];
-        
-        hint.text = new string(hintChar);
+        if (activePrompt.Length > 5)
+        {
+            //get a random letter from Active prompt and display it on the hint
+            int random = UnityEngine.Random.Range(0, activePrompt.Length - 1);
+            char[] letter = activePrompt.ToCharArray();
+            char[] hintChar = hint.text.ToCharArray();
+
+            if (hintChar[random] == 45)
+            {
+                hintChar[random] = letter[random];
+                hint.text = new string(hintChar);
+            }
+            else
+            {
+                AddHint();
+            }
+        }        
         
     }
 
