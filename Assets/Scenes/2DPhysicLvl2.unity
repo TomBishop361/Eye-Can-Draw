@@ -4863,7 +4863,7 @@ MonoBehaviour:
   brushPrefab: {fileID: 5452824995482261966, guid: b07ba48a44391bb49848e6cb16a55af8, type: 3}
   FollowObj: {fileID: 795753317}
   color: {r: 0, g: 0, b: 0, a: 0}
-  multiplier: 0.006
+  multiplier: 0.02
 --- !u!4 &1860354189
 Transform:
   m_ObjectHideFlags: 0

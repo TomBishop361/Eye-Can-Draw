@@ -21,6 +21,7 @@ public class Manager : MonoBehaviour
     [Header("UI")]
     public TextMeshProUGUI playercountText;
     [SerializeField] private GameObject PlayerSelect;
+    [SerializeField] private TMP_Text hint;
     [SerializeField] private TMP_Text promptText;
     [SerializeField] private GameObject ReadyButton;
     [SerializeField] private GameObject[] players;
@@ -58,6 +59,15 @@ public class Manager : MonoBehaviour
         }
     }
 
+    
+    public void createHint()
+    {
+        int letters = activePrompt.Length;
+        for(int i = 0; i < letters; i++)
+        {
+            hint.text += "-";
+        }
+    }
 
     public void morePlayer(){
         //Check if playercount is below maximum players (4)
