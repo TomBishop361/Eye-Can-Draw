@@ -48,8 +48,10 @@ public class MyClickBrush : MonoBehaviour
 			thisBrush = Instantiate(brushPrefab, FollowObj.transform.position, Quaternion.identity);
 			thisBrush.GetComponent<LineScript>().colourChange(color);
 
-
-			Manager.Instance.lines.Add(thisBrush);
+			if (Manager.Instance != null)
+			{
+				Manager.Instance.lines.Add(thisBrush);
+			}
 			
 
 			Ray mRay = Camera.main.ScreenPointToRay(gazePoint.Screen);
