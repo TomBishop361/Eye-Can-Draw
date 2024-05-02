@@ -29,7 +29,11 @@ public class TimerScript : MonoBehaviour
         while (timeRemaining > -1) {
             text.text = $"{timeRemaining / 60:00} : {timeRemaining % 60:00}";
             imageFill.fillAmount = Mathf.InverseLerp(0,_duration,timeRemaining);
-            if (timeRemaining % bonustimer == 0 ) Manager.Instance.bonus -=5; 
+            if (timeRemaining % bonustimer == 0)
+            {
+                Manager.Instance.bonus -= 5;
+                Manager.Instance.AddHint();
+            }
             timeRemaining--;
             yield return new WaitForSeconds(1f);
         }

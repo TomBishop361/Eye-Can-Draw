@@ -62,11 +62,25 @@ public class Manager : MonoBehaviour
     
     public void createHint()
     {
+        hint.text = string.Empty;
         int letters = activePrompt.Length;
         for(int i = 0; i < letters; i++)
         {
             hint.text += "-";
         }
+    }
+
+    public void AddHint()
+    {
+        //get a random letter from Active prompt and display it on the hint
+        int random = UnityEngine.Random.Range(0, activePrompt.Length-1);
+        char[] letter = activePrompt.ToCharArray();
+        char[] hintChar = hint.text.ToCharArray();
+        
+        hintChar[random] = letter[random];
+        
+        hint.text = new string(hintChar);
+        
     }
 
     public void morePlayer(){
@@ -187,10 +201,15 @@ public class Manager : MonoBehaviour
         {
             promptText.text = "Check Your Prompt!";
             gerneratePromptRpc();
+
         }
         else
         {
             promptText.text = activePrompt;
+        }
+        if(activePrompt != null)
+        {
+            createHint();
         }
     }
 
